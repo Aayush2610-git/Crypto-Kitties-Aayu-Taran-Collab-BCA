@@ -1,0 +1,47 @@
+#body{
+    background-color: rgb(255, 185, 98);
+    width:200px;
+    height: 200px;
+    border-radius: 50%;
+}
+.eyes{
+    position: relative;
+    top:30px;
+    display:flex;
+}
+.eye{
+    background-color: white;
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    margin:25px;
+    position: relative;
+}
+.pupils{
+    background-color: black;
+    width:35px;
+    height:35px;
+    border-radius: 50%;
+    position: absolute;
+    top:10px;
+    left:10px;
+}
+.ears{
+    position: relative;
+
+}
+.ear{
+    border-radius: 90% 0 90% 0;
+    background-color: rgb(255, 185, 98);
+    height:100px;
+    width:100px;
+    position: absolute;
+
+}
+.left{
+    transform: scale(1,-1);
+    left:0;
+}
+.right{
+    left:100px;
+}

@@ -1,0 +1,84 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+body{
+    background-color: antiquewhite;
+}
+.header-container{
+    display:flex;
+
+}
+.logo{
+    width:30%;
+}
+.main-nav{
+    width:70%;
+
+}
+.menu-list{
+    list-style-type:none;
+    display:flex;
+    justify-content:flex-end;
+    padding-right: 30px;
+
+
+}
+.menu-item{
+    margin:20px;
+    font-size:16px;
+}
+#moralis-reference{
+    text-shadow: 2px 2px 7px red;
+}
+.dashed-border{
+    border: 2px dashed darkblue;
+}
+.d-block{
+    display:block;
+}
+.d-inline{
+    display:inline;
+} 
+.d-inline-block{
+    display:inline-block;
+}
+
+button{
+    border:none;
+    box-shadow:3px 3px 7px rgb(117, 117, 117,0.5);
+    cursor: pointer;
+}
+[type=text],[type=number],[type=password],[type=submit]{
+    padding: 8px;
+}
+
+@media screen and (min-width:400px){
+    .header-container{
+        display:flex;
+    
+    }
+    .logo{
+        padding-left: 25px;
+        width:30%;
+    }
+    .main-nav{
+        width:70%;
+    
+    }
+    .menu-list{
+        list-style-type:none;
+        display:flex;
+        justify-content:flex-end;
+        padding-right: 30px;
+    
+    
+    }
+    .menu-item{
+        margin:20px;
+        font-size:16px;
+    }
+
+}
