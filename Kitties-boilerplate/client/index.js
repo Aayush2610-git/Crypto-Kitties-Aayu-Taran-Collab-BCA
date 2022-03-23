@@ -2,12 +2,17 @@ var web3 = new Web3(Web3.givenProvider);
 // Here we have metamask so what givenprovider will do is take whatever provider we get from metamask i.e local node, testnet. real eth blockchain..it will take that network and connect
 var instance;
 var user;
-var contractAddress = "0x381BFb2229bC9A3cd2fC1654C268F8358094F155";
-
+var contractAddress = "0xA19f21db985D6a3c2e939D02a4531ECfCC3b1158";
+/* Moralis init code */
+// const serverUrl = "https://i0o1lnywkcrv.usemoralis.com:2053/server";
+// const appId = "i9xlGxBf9eUmnVd5tlhyCpo22OE6VK1MbS6Z5Xoi";
+// Moralis.start({ serverUrl, appId });
+/* TODO: Add Moralis Authentication code */
 //whenever the page has finished loading 
 $(document).ready(function(){
     //here we can connect metamask and web3 and true for all web3 applications 
     //we need to call metamask enable function -> allow website to use their metamask account and interact with the blockchain
+    
     window.ethereum.enable().then(function(accounts)
     {
         //so when user accpets that we have to create the contact's instance..similar to truffle
@@ -15,9 +20,9 @@ $(document).ready(function(){
         //from:Account[0] => coz what account will use as default for transactions
         //abi is the specification of what the contract does in order for the lib to know what func and param are therd and what it is expecting to return..type of args and what to expect in return
         //application binary interface
-
+        
         user = accounts[0];
-
+        // Moralis.authenticate({signingMessage:"hello"})
         console.log(instance);
 
         instance.events.Birth().on('data', function(event){
@@ -58,7 +63,7 @@ function CreateCat()
 
             // we get an error or a txhash
             if(error)
-            console.log(err);
+            console.log(error.message);
             else{
                 console.log(txHash);
                 //transaction has been sent

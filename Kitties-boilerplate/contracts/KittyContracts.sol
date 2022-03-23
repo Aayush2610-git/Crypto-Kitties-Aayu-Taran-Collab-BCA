@@ -34,12 +34,13 @@ contract Kittycontract is IERC721,Ownable{
     mapping(uint256 => address) public kittyIndexToApproved; 
     //give approval to someone else also to transfer token..transferring rights..behalf of someone else
     mapping(address => mapping(address => bool)) private _operatorApprovals;
+    mapping(address => uint) balance;
     //MYADDR => OpearatorAddr => True/False
     // ---------------------------------
         function breed(uint256 _dadId, uint256 _mumId) public returns(uint256)
         {
             require(_owns(msg.sender,_dadId), "The User does not own this token");
-            require(_owns(msg.sender,mumId), "The user doesn't own the token");
+            require(_owns(msg.sender,_mumId), "The user doesn't own the token");
             //Check Ownership
             //You got the dna
             //Figure out the generation
@@ -60,14 +61,14 @@ contract Kittycontract is IERC721,Ownable{
     }
     //---------------------------------------------------------------------
     function safeTransferFrom(address _from,address _to,uint256 _tokenId,bytes memory _data) public {
-        require(_isApprovedOrOwner(msg.sender,_from,_to,_tokenId) );
+        require(_isApprovedOrOwner(msg.sender,_from,_to,_tokenId),"In1");
         _safeTransfer(_from, _to, _tokenId, _data);
     }
     // ------------------------------------------------------------------
     function _safeTransfer(address _from, address _to, uint256 _tokenId, bytes memory _data) internal
     {
         _transfer(_from,_to,_tokenId);
-        require(_checkERC721Support(_from,_to,_tokenId,_data));
+        require(_checkERC721Support(_from,_to,_tokenId,_data),"In2");
 
     }
     // --------------------------------------------------------
@@ -86,7 +87,7 @@ contract Kittycontract is IERC721,Ownable{
     function approve(address _to,uint256 _tokenId) public 
     {
         //give approval for one specific tokenId 
-        require(_owns(msg.sender, _tokenId));
+        require(_owns(msg.sender, _tokenId),"In3");
 
         _approve(_tokenId,_to); //internal approve func
         emit Approval(msg.sender, _to, _tokenId); //emit the approval
@@ -100,7 +101,7 @@ contract Kittycontract is IERC721,Ownable{
     function getApproved(uint256 tokenId) public view returns(address)
     {
         //get the status of a specif token approval
-        require(tokenId < kitties.length); //Token must exist..If the tokenId is not a valid toke..now all our tokens will be in the kitties array..[0,1,2,3,4]//so length will be 5..now 5 will not be approved coz it's not "<"
+        require(tokenId < kitties.length,"In4"); //Token must exist..If the tokenId is not a valid toke..now all our tokens will be in the kitties array..[0,1,2,3,4]//so length will be 5..now 5 will not be approved coz it's not "<"
         return kittyIndexToApproved[tokenId]; //returns address of the tokenId that has approval
     }
     function isApprovedForAll(address owner, address operator) public view returns(bool)
@@ -140,7 +141,7 @@ contract Kittycontract is IERC721,Ownable{
         //This will take the genes that we send in from the front end when we create the cat..using that the sliders and gen0 should use the private kitty function
         
 
-        require(gen0Counter < CREATION_LIMIT_GEN0);
+        require(gen0Counter < CREATION_LIMIT_GEN0,"In5");
 
         gen0Counter++;
         return _createKitty(0, 0, 0, _genes,msg.sender);
@@ -193,9 +194,9 @@ contract Kittycontract is IERC721,Ownable{
         return kittyIndexToOwner[_tokenId];
     }
     function transfer(address _to, uint256 _tokenId) external{
-        require(_to !=address(0));
-        require(_to !=address(this));
-        require(_owns(msg.sender,_tokenId));
+        require(_to !=address(0),"In6");
+        require(_to !=address(this),"In7");
+        require(_owns(msg.sender,_tokenId),"In8");
 
         _transfer(msg.sender, _to, _tokenId);
     }
@@ -244,9 +245,9 @@ contract Kittycontract is IERC721,Ownable{
     }
     function _isApprovedOrOwner(address _spender, address _from, address _to,uint256 _tokenId) internal view returns(bool)
     {
-        require(_tokenId<kitties.length); //Token must exist
-        require(_to != address(0)); //To address is not 0 addess
-        require(_owns(_from,_tokenId)); //From owns the token
+        require(_tokenId<kitties.length,"In9"); //Token must exist
+        require(_to != address(0),"In10"); //To address is not 0 addess
+        require(_owns(_from,_tokenId),"In11"); //From owns the token
 
         //_spender is from OR spender is approved for tokenId or spender is operator for from
         return(_spender == _from || _approvedFor(_spender,_tokenId) || isApprovedForAll(_from,_spender));
